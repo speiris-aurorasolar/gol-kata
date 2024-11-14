@@ -1,0 +1,59 @@
+[build-system]
+requires = ["poetry-core >= 1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry]
+name = "my_fibonacci"
+version = "0.0.0"
+description = "A starter python module for generating a Fibonacci sequence."
+license = "Unlicense"
+authors = [
+    "Alfi Maulana <alfi.maulana.f@gmail.com>",
+]
+readme = "README.md"
+repository = "https://github.com/threeal/python-starter"
+keywords = ["python", "starter", "fibonacci"]
+classifiers = [
+  "Development Status :: 1 - Planning",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: The Unlicense (Unlicense)",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3 :: Only",
+  "Topic :: Software Development :: Libraries :: Python Modules"
+]
+packages = [
+    { include = "my_fibonacci", from = "lib" }
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.3"
+poethepoet = "^0.30.0"
+pytest-cov = "^6.0.0"
+pydoctor = "^24.3.3"
+ruff = "^0.7.3"
+
+[tool.poetry.scripts]
+my_fibonacci = "my_fibonacci.__main__:main"
+
+[tool.poe.tasks]
+docs = "pydoctor --make-html lib/my_fibonacci"
+format = "ruff format lib tests"
+lint = "ruff check lib tests"
+test = "pytest -v --cov=my_fibonacci"
+
+[tool.coverage.report]
+fail_under = 100
+omit = ["__main__.py"]
+
+[tool.ruff.lint]
+extend-select = ["E", "W", "C90", "I", "N", "D", "UP", "ANN", "S", "B", "A", "C4", "ICN", "INP", "PIE", "PT", "Q", "RET", "SIM", "TCH", "ARG", "ERA", "PL", "PERF"]
+ignore = ["D211", "D212"]
+
+[tool.ruff.per-file-ignores]
+"tests/*" = ["D", "S101"]
